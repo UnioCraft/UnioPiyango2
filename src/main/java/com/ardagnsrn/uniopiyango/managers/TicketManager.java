@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.text.NumberFormat;
 import java.util.*;
 
 public class TicketManager {
@@ -142,6 +143,10 @@ public class TicketManager {
         return allFullTickets;
     }
 
+    public int getTotalMoneySpent() {
+        return (getAllFullTickets().size() * 100000000) + (getAllHalfTickets().size() * 50000000) + (getAllQuarterTickets().size() * 25000000);
+    }
+
     public void sendTicketInformation(Player player) {
         player.sendMessage(plugin.getMessage("ticketInformation.theTicketsYouHaveBought"));
         player.sendMessage(plugin.getMessage("ticketInformation.tickets")
@@ -181,7 +186,7 @@ public class TicketManager {
             return;
         }
 
-        double moneyNeeded = 0;
+        int moneyNeeded = 0;
         if (ticketType.equals(TicketType.QUARTER)) {
             moneyNeeded = 25000000;
         } else if (ticketType.equals(TicketType.HALF)) {
@@ -225,8 +230,10 @@ public class TicketManager {
         if (plugin.getEconomy().withdrawPlayer(player, moneyNeeded).transactionSuccess()) {
             tickets.put(String.valueOf(ticketNo), player.getName());
             Utils.spawnFireworks(player.getLocation(), 1);
-            Bukkit.broadcastMessage(plugin.getMessage("buyTickets.alert").replaceAll("%player%", player.getName()));
-            player.sendMessage(plugin.getMessage("buyTickets.success").replaceAll("%moneyNeeded%", Double.toString(moneyNeeded)).replaceAll("%ticketNo%", String.valueOf(ticketNo)));
+            if (plugin.getBroadcastBuying()) {
+                Bukkit.broadcastMessage(plugin.getMessage("buyTickets.alert").replaceAll("%player%", player.getName()));
+            }
+            player.sendMessage(plugin.getMessage("buyTickets.success").replaceAll("%moneyNeeded%", NumberFormat.getInstance().format(moneyNeeded)).replaceAll("%ticketNo%", String.valueOf(ticketNo)));
         }
     }
 

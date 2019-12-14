@@ -34,7 +34,8 @@ public class GUIManager {
         adminItemLore.replaceAll(str -> str.replaceAll("%totalTickets%", String.valueOf(plugin.getTicketManager().getAllTickets().size()))
                 .replaceAll("%quarterTickets%", String.valueOf(plugin.getTicketManager().getAllQuarterTickets().size()))
                 .replaceAll("%halfTickets%", String.valueOf(plugin.getTicketManager().getAllHalfTickets().size()))
-                .replaceAll("%fullTickets%", String.valueOf(plugin.getTicketManager().getAllFullTickets().size())));
+                .replaceAll("%fullTickets%", String.valueOf(plugin.getTicketManager().getAllFullTickets().size()))
+                .replaceAll("%totalMoney%", String.valueOf(plugin.getTicketManager().getTotalMoneySpent())));
         adminItemMeta.setLore(adminItemLore);
         adminItem.setItemMeta(adminItemMeta);
 
@@ -43,7 +44,8 @@ public class GUIManager {
         playerItemMeta.setOwner(player.getName());
         playerItemMeta.setDisplayName(plugin.getMessage("gui.playerItem.name"));
         List<String> playerItemLore = plugin.getMessages("gui.playerItem.lore");
-        playerItemLore.replaceAll(str -> str.replaceAll("%totalTickets%", String.valueOf(plugin.getTicketManager().getAllTickets(player.getName()).size()))
+        playerItemLore.replaceAll(str -> str.replaceAll("%player%", player.getName())
+                .replaceAll("%totalTickets%", String.valueOf(plugin.getTicketManager().getAllTickets(player.getName()).size()))
                 .replaceAll("%quarterTickets%", String.valueOf(plugin.getTicketManager().getQuarterTickets(player.getName()).size()))
                 .replaceAll("%halfTickets%", String.valueOf(plugin.getTicketManager().getHalfTickets(player.getName()).size()))
                 .replaceAll("%fullTickets%", String.valueOf(plugin.getTicketManager().getFullTickets(player.getName()).size())));

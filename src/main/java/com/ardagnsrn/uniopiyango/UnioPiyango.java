@@ -9,6 +9,7 @@ import com.ardagnsrn.uniopiyango.managers.TicketManager;
 import lombok.Getter;
 import lombok.Setter;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
@@ -36,6 +37,9 @@ public class UnioPiyango extends JavaPlugin implements Listener {
     @Getter
     @Setter
     private Boolean eventStatus; // True: Ongoing, False: Over
+    @Getter
+    @Setter
+    private Boolean broadcastBuying;
 
     public void onEnable() {
         setupVaultEconomy();
@@ -52,6 +56,7 @@ public class UnioPiyango extends JavaPlugin implements Listener {
         new CmdPiyango(this);
 
         eventStatus = getConfig().getBoolean("eventStatus");
+        broadcastBuying = getConfig().getBoolean("broadcastBuying");
     }
 
     public void onDisable() {
@@ -59,14 +64,17 @@ public class UnioPiyango extends JavaPlugin implements Listener {
     }
 
     public void reload() {
+        ticketManager.saveTickets();
+        Bukkit.getScheduler().cancelAllTasks();
         reloadConfig();
         for (Config config : Config.values()) {
             configManager.saveConfig(config);
             configManager.reloadConfig(config);
         }
         eventStatus = getConfig().getBoolean("eventStatus");
+        broadcastBuying = getConfig().getBoolean("broadcastBuying");
         guiManager = new GUIManager(this);
-
+        ticketManager = new TicketManager(this);
     }
 
     public String getMessage(String configSection) {

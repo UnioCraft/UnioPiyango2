@@ -1,5 +1,6 @@
 command:
   openingMenu: "&4&l> &7Piyango menüsü açılıyor. Eğer ChatCraft, ConsoleClient vb. uygulamalardan giriş yapıyorsanız bu menüyü görüntüleyemezsiniz."
+  broadcastBuying: "&aBilet satın alındığında mesaj gösterilmesi ayarı değiştirildi."
   sorgu:
     usage: |
       &4&l> &c/piyango sorgu bilet <biletno>

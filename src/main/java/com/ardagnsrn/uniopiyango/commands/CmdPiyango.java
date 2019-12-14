@@ -36,6 +36,11 @@ public class CmdPiyango implements CommandExecutor {
                 }
             }
 
+            if (args[0].equalsIgnoreCase("togglebroadcast")) {
+                plugin.setBroadcastBuying(!plugin.getBroadcastBuying());
+                sender.sendMessage(plugin.getMessage("command.broadcastBuying"));
+            }
+
             if (args[0].equalsIgnoreCase("sorgu")) {
                 if (args.length != 3) {
                     sender.sendMessage(plugin.getMessage("command.sorgu.usage"));
