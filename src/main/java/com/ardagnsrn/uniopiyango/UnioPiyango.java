@@ -65,7 +65,7 @@ public class UnioPiyango extends JavaPlugin implements Listener {
 
     public void reload() {
         ticketManager.saveTickets();
-        Bukkit.getScheduler().cancelAllTasks();
+        Bukkit.getScheduler().cancelTasks(this);
         reloadConfig();
         for (Config config : Config.values()) {
             configManager.saveConfig(config);

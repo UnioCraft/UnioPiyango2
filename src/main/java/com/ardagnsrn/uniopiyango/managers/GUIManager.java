@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class GUIManager {
@@ -35,7 +36,7 @@ public class GUIManager {
                 .replaceAll("%quarterTickets%", String.valueOf(plugin.getTicketManager().getAllQuarterTickets().size()))
                 .replaceAll("%halfTickets%", String.valueOf(plugin.getTicketManager().getAllHalfTickets().size()))
                 .replaceAll("%fullTickets%", String.valueOf(plugin.getTicketManager().getAllFullTickets().size()))
-                .replaceAll("%totalMoney%", String.valueOf(plugin.getTicketManager().getTotalMoneySpent())));
+                .replaceAll("%totalMoney%", NumberFormat.getInstance().format(plugin.getTicketManager().getTotalMoneySpent())));
         adminItemMeta.setLore(adminItemLore);
         adminItem.setItemMeta(adminItemMeta);
 

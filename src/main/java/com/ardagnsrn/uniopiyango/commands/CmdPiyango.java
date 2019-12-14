@@ -28,6 +28,7 @@ public class CmdPiyango implements CommandExecutor {
         if (args.length > 0 && sender.hasPermission("uniopiyango.admin")) {
             if (args[0].equalsIgnoreCase("reload")) {
                 plugin.reload();
+                sender.sendMessage(plugin.getMessage("command.reload"));
             }
 
             if (args[0].equalsIgnoreCase("baslat")) {
