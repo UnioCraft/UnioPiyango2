@@ -143,8 +143,8 @@ public class TicketManager {
         return allFullTickets;
     }
 
-    public int getTotalMoneySpent() {
-        return (getAllFullTickets().size() * 100000000) + (getAllHalfTickets().size() * 50000000) + (getAllQuarterTickets().size() * 25000000);
+    public long getTotalMoneySpent() {
+        return (getAllFullTickets().size() * 100000000L) + (getAllHalfTickets().size() * 50000000L) + (getAllQuarterTickets().size() * 25000000L);
     }
 
     public void sendTicketInformation(Player player) {
@@ -247,6 +247,7 @@ public class TicketManager {
         plugin.setEventStatus(false);
         plugin.getConfig().set("eventStatus", false);
         plugin.saveConfig();
+        plugin.getConfigManager().saveConfig(Config.DATA);
 
         //TODO Automatically put the data to website and broadcast in game.
     }

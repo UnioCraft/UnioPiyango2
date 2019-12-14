@@ -35,6 +35,7 @@ public class CmdPiyango implements CommandExecutor {
                 if (plugin.getEventStatus()) {
                     plugin.getTicketManager().drawWinners();
                 }
+                sender.sendMessage(plugin.getMessage("command.baslat"));
             }
 
             if (args[0].equalsIgnoreCase("togglebroadcast")) {
