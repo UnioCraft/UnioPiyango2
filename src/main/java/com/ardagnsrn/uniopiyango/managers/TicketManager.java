@@ -15,9 +15,9 @@ public class TicketManager {
     private UnioPiyango plugin;
 
     /*
-     * Quarter Tickets between 000000-333333
-     * Half Tickets between 333334-666666
-     * Full Tickets between 666667-999999
+     * Quarter Tickets between 100000-399999
+     * Half Tickets between 400000-699999
+     * Full Tickets between 700000-999999
      */
     private Map<String, String> tickets = new HashMap<>(); // Ticket No, Player
     private List<String> winnerTickets = new ArrayList<>();
@@ -59,7 +59,7 @@ public class TicketManager {
         List<String> quarterTickets = new ArrayList<>();
 
         for (String ticketNo : tickets.keySet()) {
-            if (tickets.get(ticketNo).equals(playerName) && Integer.parseInt(ticketNo) <= 333333) {
+            if (tickets.get(ticketNo).equals(playerName) && Integer.parseInt(ticketNo) <= 399999) {
                 quarterTickets.add(ticketNo);
             }
         }
@@ -71,7 +71,7 @@ public class TicketManager {
         List<String> halfTickets = new ArrayList<>();
 
         for (String ticketNo : tickets.keySet()) {
-            if (tickets.get(ticketNo).equals(playerName) && Integer.parseInt(ticketNo) >= 333334 && Integer.parseInt(ticketNo) <= 666666) {
+            if (tickets.get(ticketNo).equals(playerName) && Integer.parseInt(ticketNo) >= 400000 && Integer.parseInt(ticketNo) <= 699999) {
                 halfTickets.add(ticketNo);
             }
         }
@@ -83,7 +83,7 @@ public class TicketManager {
         List<String> fullTickets = new ArrayList<>();
 
         for (String ticketNo : tickets.keySet()) {
-            if (tickets.get(ticketNo).equals(playerName) && Integer.parseInt(ticketNo) >= 666667) {
+            if (tickets.get(ticketNo).equals(playerName) && Integer.parseInt(ticketNo) >= 700000) {
                 fullTickets.add(ticketNo);
             }
         }
@@ -111,7 +111,7 @@ public class TicketManager {
         List<String> allQuarterTickets = new ArrayList<>();
 
         for (String ticketNo : tickets.keySet()) {
-            if (Integer.parseInt(ticketNo) <= 333333) {
+            if (Integer.parseInt(ticketNo) <= 399999) {
                 allQuarterTickets.add(ticketNo);
             }
         }
@@ -123,7 +123,7 @@ public class TicketManager {
         List<String> allHalfTickets = new ArrayList<>();
 
         for (String ticketNo : tickets.keySet()) {
-            if (Integer.parseInt(ticketNo) >= 333334 && Integer.parseInt(ticketNo) <= 666666) {
+            if (Integer.parseInt(ticketNo) >= 400000 && Integer.parseInt(ticketNo) <= 699999) {
                 allHalfTickets.add(ticketNo);
             }
         }
@@ -135,7 +135,7 @@ public class TicketManager {
         List<String> allFullTickets = new ArrayList<>();
 
         for (String ticketNo : tickets.keySet()) {
-            if (Integer.parseInt(ticketNo) >= 666667) {
+            if (Integer.parseInt(ticketNo) >= 700000) {
                 allFullTickets.add(ticketNo);
             }
         }
@@ -207,13 +207,13 @@ public class TicketManager {
         int high = 0;
 
         if (ticketType.equals(TicketType.QUARTER)) {
-            low = 0;
-            high = 333333;
+            low = 100000;
+            high = 399999;
         } else if (ticketType.equals(TicketType.HALF)) {
-            low = 333334;
-            high = 666666;
+            low = 400000;
+            high = 699999;
         } else if (ticketType.equals(TicketType.FULL)) {
-            low = 666667;
+            low = 700000;
             high = 999999;
         }
 
