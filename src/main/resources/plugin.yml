@@ -1,0 +1,10 @@
+name: UnioPiyango
+main: com.ardagnsrn.uniopiyango.UnioPiyango
+version: 2.0
+author: ArdaGnsrn, UnioDex
+
+depends: [Vault]
+
+commands:
+  piyango:
+    description: "Piyango"

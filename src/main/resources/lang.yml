@@ -1,0 +1,99 @@
+command:
+  openingMenu: "&4&l> &7Piyango menüsü açılıyor. Eğer ChatCraft, ConsoleClient vb. uygulamalardan giriş yapıyorsanız bu menüyü görüntüleyemezsiniz."
+  sorgu:
+    usage: |
+      &4&l> &c/piyango sorgu bilet <biletno>
+      &4&l> &c/piyango sorgu oyuncu <oyuncu>
+    ticketOwner: "&4&l> &c%ticketNo% nolu bilet %owner% tarafından sahiplenilmiş."
+    noTicketOwner: "&4&l> &c%ticketNo% nolu bilet sahiplenilmemiş."
+    playerNotFound: "&4&l> &cOyuncu bulunamadı."
+    playerTickets: "&4&l> &c%player% tarafından satın alınan piyango biletleri:"
+gui:
+  name: "Piyango (Yılbaşı)"
+  adminItem:
+    name: "&b&lYönetici Bilgi"
+    lore:
+      - "&4&lNOT: &cBurası sadece yetkililer tarafından görüntülenmektedir."
+      - " "
+      - "&7Toplam satın alınan bilet: &e%totalTickets% adet"
+      - "&7Çeyrek biletler: &e%quarterTickets% adet"
+      - "&7Yarım biletler: &e%halfTickets% adet"
+      - "&7Tam biletler: &e%fullTickets% adet"
+      - "&7Toplam harcanan para: &e%totalMoney% TL"
+      - " "
+      - "&c/piyango sorgu bilet <biletno>"
+      - "&c/piyango sorgu oyuncu <oyuncu>"
+      - "&c/piyango baslat"
+  playerItem:
+    name: "&b&lBilgilendirme"
+    lore:
+      - "&eOyuncu: %player%"
+      - "&8Satın alınan bilet: &7%totalTickets% adet"
+      - "&7Çeyrek biletler: &e%quarterTickets% adet"
+      - "&7Yarım biletler: &e%halfTickets% adet"
+      - "&7Tam biletler: &e%fullTickets% adet"
+      - " "
+      - "&6&l&nSatın Aldığınız Biletlerin Numaraları İçin Tıklayın"
+  quarterItem:
+    name: "&b&l&nÇeyrek&b&l Piyango Bileti"
+    lore:
+      - " "
+      - "&8Tür: &7Çeyrek Bilet"
+      - "&8Fiyat: &e25.000.000 TL"
+      - "&8Miktar: &71 adet"
+      - " "
+      - "&7Bu bileti satın aldığınızda kazandığınız ödülün çeyreği kadar ödül alırsınız."
+      - " "
+      - "&6&l&nSatın Almak İçin Tıklayın"
+  halfItem:
+    name: "&b&l&nYarım&b&l Piyango Bileti"
+    lore:
+      - " "
+      - "&8Tür: &7Yarım Bilet"
+      - "&8Fiyat: &e50.000.000 TL"
+      - "&8Miktar: &71 adet"
+      - " "
+      - "&7Bu bileti satın aldığınızda kazandığınız ödülün yarısı kadar ödül alırsınız."
+      - " "
+      - "&6&l&nSatın Almak İçin Tıklayın"
+  fullItem:
+    name: "&b&l&nTam&b&l Piyango Bileti"
+    lore:
+      - " "
+      - "&8Tür: &7Tam Bilet"
+      - "&8Fiyat: &e100.000.000 TL"
+      - "&8Miktar: &71 adet"
+      - " "
+      - "&7Bu bileti satın aldığınızda kazandığınız ödülün tamamı kadar ödül alırsınız."
+      - " "
+      - "&6&l&nSatın Almak İçin Tıklayın"
+  eventInfo:
+    name: "&b&lEtkinlik Tarihi ve Ödülleri"
+    lore:
+      - " "
+      - "&7Piyango sonuçları 28 Aralık 2019 tarihinde açıklanacaktır."
+      - " "
+      - "&4&l> &73 bilete 100 TL Kredi"
+      - "&4&l> &75 bilete 50 TL Kredi"
+      - "&4&l> &710 bilete 20 TL Kredi"
+      - "&4&l> &720 bilete 10 TL Kredi"
+      - "&4&l> &7100 bilete 1 TL Kredi"
+  winnerInfo:
+    name: "&b&lEtkinlik Kazananları"
+    lore:
+      - " "
+      - "&7Kazananları görmek için"
+      - "&9&nhttps://unio.ooo/piyango"
+      - "&7adresini ziyaret edebilirsiniz."
+ticketInformation:
+  noTickets: "&4&l> &cDaha önce piyango bileti satın almadığınız için listelenemedi. Satın almak için /piyango"
+  theTicketsYouHaveBought: "&4&l> &cSatın alınan piyango biletleriniz:"
+  tickets: |
+    &4&l> &7Çeyrek biletler: &e%quarterTickets%
+    &4&l> &7Yarım biletler: &e%halfTickets%
+    &4&l> &7Tam biletler: &e%fullTickets%
+buyTickets:
+  eventIsOver: "&cEtkinlik bittiği için piyango bileti satın alamazsınız."
+  notEnoughMoney: "&cYeterli paranız bulunmadığı için piyango bileti satın alamadınız."
+  alert: "&d&lPİYANGO &2-> &7%player% isimli oyuncu piyango bileti satın aldı! &8/piyango"
+  success: "&4&l> &e%moneyNeeded% TL karşılığında piyango bileti satın aldınız. Bilet numaranız: &n%ticketNo%"
