@@ -226,7 +226,7 @@ public class TicketManager {
             tickets.put(String.valueOf(ticketNo), player.getName());
             Utils.spawnFireworks(player.getLocation(), 1);
             Bukkit.broadcastMessage(plugin.getMessage("buyTickets.alert").replaceAll("%player%", player.getName()));
-            player.sendMessage(plugin.getMessage("buyTickets.success").replaceAll("%moneyNeeded%", String.valueOf(moneyNeeded)).replaceAll("%ticketNo%", String.valueOf(ticketNo)));
+            player.sendMessage(plugin.getMessage("buyTickets.success").replaceAll("%moneyNeeded%", Double.toString(moneyNeeded)).replaceAll("%ticketNo%", String.valueOf(ticketNo)));
         }
     }
 
