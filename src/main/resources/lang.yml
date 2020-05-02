@@ -1,6 +1,13 @@
+prefix:
+  bilgiPrefix: "&b&lUNIOCRAFT &2->&a"
+  dikkatPrefix: "&b&lUNIOCRAFT &2->&6"
+  hataPrefix: "&b&lUNIOCRAFT &2->&c"
+  consolePrefix: "[UnioPiyango] "
 command:
-  openingMenu: "&4&l> &7Piyango menüsü açılıyor. Eğer ChatCraft, ConsoleClient vb. uygulamalardan giriş yapıyorsanız bu menüyü görüntüleyemezsiniz."
-  broadcastBuying: "&aBilet satın alındığında mesaj gösterilmesi ayarı değiştirildi."
+  broadcastOpened: "&b&lUNIOCRAFT &4&l> &aPiyango bileti satın alma duyuruları açıldı!"
+  broadcastClosed: "&b&lUNIOCRAFT &4&l> &cPiyango bileti satın alma duyuruları kapatıldı!"
+  mesajOpened: "%bilgiPrefix% &7Piyango bileti satın alma duyurularını artık &agöreceksiniz."
+  mesajClosed: "%bilgiPrefix% &7Piyango bileti satın alma duyurularını artık &cgörmeyeceksiniz."
   reload: "&aPlugin yenilendi."
   baslat: "&aSonuçlar çekiliyor..."
   sorgu:
@@ -31,12 +38,13 @@ gui:
     name: "&b&lBilgilendirme"
     lore:
       - "&eOyuncu: %player%"
-      - "&8Satın alınan bilet: &7%totalTickets% adet"
+      - " "
+      - "&7Satın alınan bilet: &e%totalTickets% adet"
       - "&7Çeyrek biletler: &e%quarterTickets% adet"
       - "&7Yarım biletler: &e%halfTickets% adet"
       - "&7Tam biletler: &e%fullTickets% adet"
       - " "
-      - "&6&l&nSatın Aldığınız Biletlerin Numaraları İçin Tıklayın"
+      - "&aBiletlerini Görmek İçin tıkla!"
   quarterItem:
     name: "&b&l&nÇeyrek&b&l Piyango Bileti"
     lore:
@@ -45,7 +53,8 @@ gui:
       - "&8Fiyat: &e25.000.000 TL"
       - "&8Miktar: &71 adet"
       - " "
-      - "&7Bu bileti satın aldığınızda kazandığınız ödülün çeyreği kadar ödül alırsınız."
+      - "&7Bu bileti satın aldığınızda kazandığınız"
+      - "&7ödülün çeyreği kadar ödül alırsınız."
       - " "
       - "&6&l&nSatın Almak İçin Tıklayın"
   halfItem:
@@ -56,7 +65,8 @@ gui:
       - "&8Fiyat: &e50.000.000 TL"
       - "&8Miktar: &71 adet"
       - " "
-      - "&7Bu bileti satın aldığınızda kazandığınız ödülün yarısı kadar ödül alırsınız."
+      - "&7Bu bileti satın aldığınızda kazandığınız"
+      - "&7ödülün yarısı kadar ödül alırsınız."
       - " "
       - "&6&l&nSatın Almak İçin Tıklayın"
   fullItem:
@@ -67,20 +77,34 @@ gui:
       - "&8Fiyat: &e100.000.000 TL"
       - "&8Miktar: &71 adet"
       - " "
-      - "&7Bu bileti satın aldığınızda kazandığınız ödülün tamamı kadar ödül alırsınız."
+      - "&7Bu bileti satın aldığınızda kazandığınız"
+      - "&7ödülün tamamı kadar ödül alırsınız."
       - " "
       - "&6&l&nSatın Almak İçin Tıklayın"
   eventInfo:
     name: "&b&lEtkinlik Tarihi ve Ödülleri"
     lore:
       - " "
-      - "&7Piyango sonuçları 28 Aralık 2019 tarihinde açıklanacaktır."
+      - "&7Piyango sonuçları 28 Aralık 2019"
+      - "&7tarihinde açıklanacaktır."
       - " "
       - "&4&l> &73 bilete 100 TL Kredi"
       - "&4&l> &75 bilete 50 TL Kredi"
       - "&4&l> &710 bilete 20 TL Kredi"
       - "&4&l> &720 bilete 10 TL Kredi"
       - "&4&l> &7100 bilete 1 TL Kredi"
+  top10Item:
+    name: "&b&lEn Çok Piyango Bileti Alanlar"
+    lore:
+      - " "
+      - "&7En çok piyango bileti alanları"
+      - "&7görmek için tıkla!"
+  toggleItem:
+    name: "&cDuyuruları Aç/Kapat"
+    lore:
+      - " "
+      - "&7Piyango bileti alma duyurularını"
+      - "&7açmak/kapatmak için tıkla!"
   winnerInfo:
     name: "&b&lEtkinlik Kazananları"
     lore:
@@ -88,6 +112,10 @@ gui:
       - "&7Kazananları görmek için"
       - "&9&nhttps://unio.ooo/piyango"
       - "&7adresini ziyaret edebilirsiniz."
+toptenGUI:
+  name: "En Çok Piyango Bileti Alanlar"
+  head: "&e&l<!> &e%playerName% &7(#%rank%)"
+  ticketAmount: "&eAlınan Bilet Sayısı"
 ticketInformation:
   noTickets: "&4&l> &cDaha önce piyango bileti satın almadığınız için listelenemedi. Satın almak için /piyango"
   theTicketsYouHaveBought: "&4&l> &cSatın alınan piyango biletleriniz:"
@@ -98,5 +126,6 @@ ticketInformation:
 buyTickets:
   eventIsOver: "&cEtkinlik bittiği için piyango bileti satın alamazsınız."
   notEnoughMoney: "&cYeterli paranız bulunmadığı için piyango bileti satın alamadınız."
-  alert: "&d&lPİYANGO &2-> &7%player% isimli oyuncu piyango bileti satın aldı! &8/piyango"
+  alert: "&d&lPİYANGO &2-> &a%player%&7, &e%amount% &7adet piyango bileti satın aldı! &8/piyango"
   success: "&4&l> &e%moneyNeeded% TL karşılığında piyango bileti satın aldınız. Bilet numaranız: &n%ticketNo%"
+broadcast: "&d&lPİYANGO  &2-> &b&lKazananlar çekildi ve sonuçlar http://unio.ooo/piyango adresinde yayınlandı! Bol şans!"

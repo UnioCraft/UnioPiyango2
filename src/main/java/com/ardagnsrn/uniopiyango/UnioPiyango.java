@@ -5,6 +5,7 @@ import com.ardagnsrn.uniopiyango.listeners.PlayerListeners;
 import com.ardagnsrn.uniopiyango.managers.ConfigManager;
 import com.ardagnsrn.uniopiyango.managers.ConfigManager.Config;
 import com.ardagnsrn.uniopiyango.managers.GUIManager;
+import com.ardagnsrn.uniopiyango.managers.SQLManager;
 import com.ardagnsrn.uniopiyango.managers.TicketManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,12 +41,17 @@ public class UnioPiyango extends JavaPlugin implements Listener {
     @Getter
     @Setter
     private Boolean broadcastBuying;
+    @Getter
+    private SQLManager sqlManager;
 
     public void onEnable() {
         setupVaultEconomy();
 
         //Managers
         configManager = new ConfigManager(this);
+
+        load();
+
         ticketManager = new TicketManager(this);
         guiManager = new GUIManager(this);
 
@@ -55,12 +61,21 @@ public class UnioPiyango extends JavaPlugin implements Listener {
         //Commands
         new CmdPiyango(this);
 
-        eventStatus = getConfig().getBoolean("eventStatus");
-        broadcastBuying = getConfig().getBoolean("broadcastBuying");
+        sqlManager = new SQLManager(this);
     }
 
     public void onDisable() {
         ticketManager.saveTickets();
+        sqlManager.onDisable();
+    }
+
+    public void load() {
+        bilgiPrefix = configManager.getConfig(Config.LANG).getString("prefix.bilgiPrefix");
+        dikkatPrefix = configManager.getConfig(Config.LANG).getString("prefix.dikkatPrefix");
+        hataPrefix = configManager.getConfig(Config.LANG).getString("prefix.hataPrefix");
+        consolePrefix = configManager.getConfig(Config.LANG).getString("prefix.consolePrefix");
+        eventStatus = getConfig().getBoolean("eventStatus");
+        broadcastBuying = getConfig().getBoolean("broadcastBuying");
     }
 
     public void reload() {
@@ -68,11 +83,9 @@ public class UnioPiyango extends JavaPlugin implements Listener {
         Bukkit.getScheduler().cancelTasks(this);
         reloadConfig();
         for (Config config : Config.values()) {
-            configManager.saveConfig(config);
             configManager.reloadConfig(config);
         }
-        eventStatus = getConfig().getBoolean("eventStatus");
-        broadcastBuying = getConfig().getBoolean("broadcastBuying");
+        load();
         guiManager = new GUIManager(this);
         ticketManager = new TicketManager(this);
     }
@@ -81,7 +94,7 @@ public class UnioPiyango extends JavaPlugin implements Listener {
         FileConfiguration config = configManager.getConfig(Config.LANG);
         if (config.getString(configSection) == null) return null;
 
-        return ChatColor.translateAlternateColorCodes('&', config.getString(configSection).replaceAll("%hataprefix%", hataPrefix).replaceAll("%bilgiprefix%", bilgiPrefix).replaceAll("%dikkatprefix%", dikkatPrefix).replaceAll("%prefix%", bilgiPrefix));
+        return ChatColor.translateAlternateColorCodes('&', config.getString(configSection).replaceAll("%hataPrefix%", hataPrefix).replaceAll("%bilgiPrefix%", bilgiPrefix).replaceAll("%dikkatPrefix%", dikkatPrefix).replaceAll("%prefix%", bilgiPrefix));
     }
 
     public List<String> getMessages(String configSection) {
@@ -90,7 +103,7 @@ public class UnioPiyango extends JavaPlugin implements Listener {
 
         List<String> newList = new ArrayList<>();
         for (String msg : config.getStringList(configSection)) {
-            newList.add(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%hataprefix%", hataPrefix).replaceAll("%bilgiprefix%", bilgiPrefix).replaceAll("%dikkatprefix%", dikkatPrefix).replaceAll("%prefix%", bilgiPrefix)));
+            newList.add(ChatColor.translateAlternateColorCodes('&', msg.replaceAll("%hataPrefix%", hataPrefix).replaceAll("%bilgiPrefix%", bilgiPrefix).replaceAll("%dikkatPrefix%", dikkatPrefix).replaceAll("%prefix%", bilgiPrefix)));
         }
         return newList;
     }

@@ -3,6 +3,7 @@ package com.ardagnsrn.uniopiyango.managers;
 import com.ardagnsrn.uniopiyango.UnioPiyango;
 import com.ardagnsrn.uniopiyango.managers.ConfigManager.Config;
 import com.ardagnsrn.uniopiyango.utils.Utils;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -19,8 +20,11 @@ public class TicketManager {
      * Half Tickets between 400000-699999
      * Full Tickets between 700000-999999
      */
+    @Getter
     private Map<String, String> tickets = new HashMap<>(); // Ticket No, Player
     private List<String> winnerTickets = new ArrayList<>();
+    @Getter
+    private List<String> broadcastClosed = new ArrayList<>();
 
     public TicketManager(UnioPiyango plugin) {
         this.plugin = plugin;
@@ -230,26 +234,30 @@ public class TicketManager {
         if (plugin.getEconomy().withdrawPlayer(player, moneyNeeded).transactionSuccess()) {
             tickets.put(String.valueOf(ticketNo), player.getName());
             Utils.spawnFireworks(player.getLocation(), 1);
-            if (plugin.getBroadcastBuying()) {
-                Bukkit.broadcastMessage(plugin.getMessage("buyTickets.alert").replaceAll("%player%", player.getName()));
-            }
             player.sendMessage(plugin.getMessage("buyTickets.success").replaceAll("%moneyNeeded%", NumberFormat.getInstance().format(moneyNeeded)).replaceAll("%ticketNo%", String.valueOf(ticketNo)));
         }
     }
 
     public void drawWinners() {
+        award(3, 100);
+        award(5, 50);
+        award(10, 20);
+        award(20, 10);
+        award(100, 1);
+
+        /*
         plugin.getConfigManager().getConfig(Config.DATA).set("100winners", getWinners(3));
         plugin.getConfigManager().getConfig(Config.DATA).set("50winners", getWinners(5));
         plugin.getConfigManager().getConfig(Config.DATA).set("20winners", getWinners(10));
         plugin.getConfigManager().getConfig(Config.DATA).set("10winners", getWinners(20));
         plugin.getConfigManager().getConfig(Config.DATA).set("1winners", getWinners(100));
+        plugin.getConfigManager().saveConfig(Config.DATA);
+        */
 
         plugin.setEventStatus(false);
         plugin.getConfig().set("eventStatus", false);
         plugin.saveConfig();
-        plugin.getConfigManager().saveConfig(Config.DATA);
-
-        //TODO Automatically put the data to website and broadcast in game.
+        Bukkit.broadcastMessage(plugin.getMessage("broadcast"));
     }
 
     public List<String> getWinners(int amount) {
@@ -259,6 +267,78 @@ public class TicketManager {
         List<String> winners = allTickets.subList(0, amount);
         winnerTickets.addAll(winners);
         return winners;
+    }
+
+    private void award(int amount, int credit) {
+        for (String ticketNo : getWinners(amount)) {
+            double creditToGive = credit;
+            String ticketType = "";
+            if (is(ticketNo, TicketType.QUARTER)) {
+                ticketType = "ceyrek";
+                creditToGive = creditToGive / 4;
+            } else if (is(ticketNo, TicketType.HALF)) {
+                ticketType = "yarim";
+                creditToGive = creditToGive / 2;
+            } else if (is(ticketNo, TicketType.FULL)) {
+                ticketType = "tam";
+            }
+            plugin.getSqlManager().updateSQL("INSERT INTO `genel`.`piyango` (`id`, `biletno`, `oyuncu`, `biletturu`, `odul`) VALUES (NULL, '" + ticketNo + "', '" + getTicketOwner(ticketNo) + "', '" + ticketType + "', '" + credit + "');");
+            plugin.getSqlManager().updateSQL("INSERT INTO `genel`.`kredi` (id, isim, kredi) VALUES (NULL, '" + getTicketOwner(ticketNo) + "', '" + creditToGive + "') ON DUPLICATE KEY UPDATE kredi=kredi + " + creditToGive + ";");
+        }
+    }
+
+    public boolean is(String ticketNo, TicketType ticketType) {
+        if (Integer.parseInt(ticketNo) <= 399999) {
+            return ticketType.equals(TicketType.QUARTER);
+        } else if (Integer.parseInt(ticketNo) >= 400000 && Integer.parseInt(ticketNo) <= 699999) {
+            return ticketType.equals(TicketType.HALF);
+        } else if (Integer.parseInt(ticketNo) >= 700000) {
+            return ticketType.equals(TicketType.FULL);
+        }
+        return false;
+    }
+
+
+    /*FIXING SHIT*/
+
+    private double credit;
+
+    public void fix() {
+        credit = 100;
+        plugin.getSqlManager().fix(credit, 100);
+        credit = 50;
+        plugin.getSqlManager().fix(credit, 50);
+        credit = 20;
+        plugin.getSqlManager().fix(credit, 20);
+        credit = 10;
+        plugin.getSqlManager().fix(credit, 10);
+        credit = 1;
+        plugin.getSqlManager().fix(credit, 1);
+    }
+
+    public void removeAward(String isim, String ticketType) {
+        if (ticketType.equalsIgnoreCase("ceyrek")) {
+            credit = credit / 4;
+        } else if (ticketType.equalsIgnoreCase("yarim")) {
+            credit = credit / 2;
+        } else if (ticketType.equalsIgnoreCase("tam")) {
+            //NOTHING
+        }
+        plugin.getSqlManager().updateSQL("INSERT INTO `genel`.`kredi` (id, isim, kredi) VALUES (NULL, '" + isim + "', '" + (-credit) + "') ON DUPLICATE KEY UPDATE kredi=kredi - " + credit + ";");
+        //System.out.println("INSERT INTO `genel`.`kredi` (id, isim, kredi) VALUES (NULL, '" + isim + "', '" + (-credit) + "') ON DUPLICATE KEY UPDATE kredi=kredi - " + credit + ";");
+    }
+
+    public void awardThatWorks(String isim, String ticketType, int credit) {
+        double creditToGive = credit;
+        if (ticketType.equalsIgnoreCase("ceyrek")) {
+            creditToGive = creditToGive / 4;
+        } else if (ticketType.equalsIgnoreCase("yarim")) {
+            creditToGive = creditToGive / 2;
+        } else if (ticketType.equalsIgnoreCase("tam")) {
+
+        }
+        plugin.getSqlManager().updateSQL("INSERT INTO `genel`.`kredi` (id, isim, kredi) VALUES (NULL, '" + isim + "', '" + creditToGive + "') ON DUPLICATE KEY UPDATE kredi=kredi + " + creditToGive + ";");
+        //System.out.println("INSERT INTO `genel`.`kredi` (id, isim, kredi) VALUES (NULL, '" + isim + "', '" + creditToGive + "') ON DUPLICATE KEY UPDATE kredi=kredi + " + creditToGive + ";");
     }
 
     public enum TicketType {

@@ -1,2 +1,8 @@
 eventStatus: true
 broadcastBuying: true
+database:
+  ip: ''
+  port: ''
+  dbname: ''
+  user: ''
+  pass: ''
